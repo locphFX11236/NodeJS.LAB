@@ -1,26 +1,11 @@
-const path = require('path'); //
+const path = require('path');
 
-const express = require('express'); //
+const express = require('express');
 
-const rootDir = require('../util/path'); //
-const adminData = require('./admin'); //
+const productsController = require('../controllers/products');
 
-const router = express.Router(); //
+const router = express.Router();
 
-router.get('/', (req, res, next) => {
-  const products = adminData.products; //
-  res.render(
-    'shop',
-    {
-      prods: products, //
-      pageTitle: 'Shop', //
-      path: '/', //
+router.get('/', productsController.getProducts);
 
-      // hasProducts: products.length > 0, // hbs
-      // activeShop: true, // hbs
-      // productCSS: true // hbs
-    }
-  );
-});
-
-module.exports = router; //
+module.exports = router;

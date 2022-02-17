@@ -1,16 +1,17 @@
-const path = require('path'); //
+const path = require('path');
 
-const express = require('express'); //
-const bodyParser = require('body-parser'); //
-// const expressHbs = require('express-handlebars'); // hbs
+const express = require('express');
+const bodyParser = require('body-parser');
+// const expressHbs = require('express-handlebars'); // Views: hbs
 
-const rootDir = require('./util/path'); //
-const adminData = require('./routes/admin'); //
-const shopRoutes = require('./routes/shop'); //
+const rootDir = require('./util/path');
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
+const errorController = require('./controllers/error');
 
-const app = express(); //
+const app = express();
 
-// app.set('view engine', 'pug'); // pug
+// app.set('view engine', 'pug'); // Views: pug
 
 // app.engine(
 //   'hbs',
@@ -19,18 +20,18 @@ const app = express(); //
 //     defaultLayout: 'main-layout',
 //     extname: 'hbs'
 //   })
-// ); // hbs
-// app.set('view engine', 'hbs'); // hbs
+// ); // Views: hbs
+// app.set('view engine', 'hbs'); // Views: hbs
 
-app.set('view engine', 'ejs'); // ejs
+app.set('view engine', 'ejs'); // Views: ejs
 
-app.set('views', 'views'); //
+app.set('views', 'views');
 
 app.use(
   bodyParser.urlencoded(
     {extended: false}
   )
-); //
+);
 app.use(
   express.static(
     path.join(
@@ -38,13 +39,11 @@ app.use(
       'public'
     )
   )
-); //
+);
 
-app.use('/admin', adminData.routes); //
-app.use(shopRoutes); //
+app.use('/admin', adminRoutes);
+app.use(shopRoutes);
 
-app.use((req, res, next) => {
-  res.status(404).render('404', { pageTitle: 'Page Not Found', path });
-}); //
+app.use(errorController.get404);
 
-app.listen(3000); //
+app.listen(3000);
