@@ -22,18 +22,19 @@ exports.postAddProduct = (req, res, next) => {
 }; // Views: all
 
 exports.getProducts = (req, res, next) => {
-    const products = Product.fetchAll(); // Views: all
-    res.render(
-        'shop',
-        {
-            prods: products, // Views: all
-            pageTitle: 'Shop', // Views: all
-            path: '/' // Views: all
-            
-            // , // Views: hbs
-            // hasProducts: products.length > 0, // Views: hbs
-            // activeShop: true, // Views: hbs
-            // productCSS: true // Views: hbs
-        }
-    );
+    Product.fetchAll(products => {
+        res.render(
+            'shop',
+            {
+                prods: products, // Views: all
+                pageTitle: 'Shop', // Views: all
+                path: '/' // Views: all
+                
+                // , // Views: hbs
+                // hasProducts: products.length > 0, // Views: hbs
+                // activeShop: true, // Views: hbs
+                // productCSS: true // Views: hbs
+            }
+        );
+    });
 };
