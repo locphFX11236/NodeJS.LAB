@@ -34,8 +34,11 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
+    if (!req.session.user) {
+        return next();
+    };
     User
-        .findById('6221eb7b967bc3289a929e5a')
+        .findById(req.session.user._id)
         .then(user => {
             req.user = user;
             next();
@@ -44,7 +47,7 @@ app.use((req, res, next) => {
             console.log(err);
         })
     ;
-})
+});
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
@@ -53,9 +56,7 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 mongoose
-    .connect(
-        MONGODB_URI
-    )
+    .connect(MONGODB_URI)
     .then(result => {
         User
             .findOne()
