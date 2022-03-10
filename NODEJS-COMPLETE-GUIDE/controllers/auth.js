@@ -80,10 +80,6 @@ exports.postSignup = (req, res, next) => {
       errorMessage: errors.array()[0].msg
     });
   }
-  if (confirmPassword !== password) {
-    req.flash('error', 'Confirm Password and Password are not match.');
-    return res.redirect('/signup');
-  }
   User
     .findOne({ email: email })
     .then(userDoc => {
