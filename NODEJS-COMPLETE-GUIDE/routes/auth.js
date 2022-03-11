@@ -8,7 +8,21 @@ const router = express.Router();
 
 router.get('/login', authController.getLogin);
 router.get('/signup', authController.getSignup);
-router.post('/login', authController.postLogin);
+router.post(
+    '/login',
+    [
+        body('email') // Xac thuc email
+            .isEmail()
+            .withMessage('Please enter a valid email.')
+            .normalizeEmail()
+        ,
+        body(
+            'password',
+            'Password has to be valid.'
+        ).isLength({ min: 3 }).isAlphanumeric().trim()
+    ],
+    authController.postLogin
+);
 router.post(
     '/signup',
     [
@@ -25,12 +39,13 @@ router.post(
                     })
                 ;
             })
+            .normalizeEmail()
         ,
         body(
             'password',
             'Please enter a password with only numbers and text and at least 3 characters.'
-        ).isLength({ min: 3 }).isAlphanumeric(),
-        body('confirmPassword').custom((value, { req }) => {
+        ).isLength({ min: 3 }).isAlphanumeric().trim(),
+        body('confirmPassword').trim().custom((value, { req }) => {
             if (value !== req.body.password) {
                 throw new Error('Confirm Password and Password have to match.');
             }
