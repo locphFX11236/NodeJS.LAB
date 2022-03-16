@@ -6,15 +6,32 @@ const PDFDocument = require('pdfkit');
 const Product = require('../models/product');
 const Order = require('../models/order');
 
+const ITEMS_PER_PAGE = 2;
+
 exports.getProducts = (req, res, next) => {
+  const page = +req.query.page || 1;
+  let totalItems;
   Product
     .find()
+    .countDocuments()
+    .then(numProducts => {
+      totalItems = numProducts;
+      return Product
+        .find()
+        .skip((page - 1) * ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE)
+    })
     .then((products) => {
-      console.log(products);
       res.render('shop/product-list', {
         prods: products,
         pageTitle: 'All Products',
-        path: '/products'
+        path: '/products/*',
+        currentPage: page,
+        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        hasPrevPage: page > 1,
+        nextPage: page + 1,
+        prevPage: page - 1,
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
       });
     })
     .catch(err => {
@@ -45,13 +62,29 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
+  const page = +req.query.page || 1;
+  let totalItems;
   Product
     .find()
+    .countDocuments()
+    .then(numProducts => {
+      totalItems = numProducts;
+      return Product
+        .find()
+        .skip((page - 1) * ITEMS_PER_PAGE)
+        .limit(ITEMS_PER_PAGE)
+    })
     .then((products) => {
       res.render('shop/index', {
         prods: products,
         pageTitle: 'Shop',
-        path: '/'
+        path: '/',
+        currentPage: page,
+        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        hasPrevPage: page > 1,
+        nextPage: page + 1,
+        prevPage: page - 1,
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
       });
     })
     .catch(err => {
@@ -201,10 +234,10 @@ exports.getInvoice = (req, res, next) => {
       order.products.forEach(prod => {
         totalPrice += prod.quantity * prod.product.price;
         pdfDoc.fontSize(14).text(
-          prod.product.title +
-          ' - ' +
-          prod.quantity +
-          ' x ' + '$' +
+          prod.product.title
+          + ' - ' +
+          prod.quantity
+          + ' x ' + '$' +
           prod.product.price
         );
       });
@@ -212,21 +245,6 @@ exports.getInvoice = (req, res, next) => {
       pdfDoc.fontSize(20).text('Total Price: $' + totalPrice);
 
       pdfDoc.end();
-      // fs.readFile(invoicePath, (err, data) => {
-      //   if (err) {
-      //     return next(err);
-      //   }
-      //   res.setHeader('Content-Type', 'application/pdf');
-      //   res.setHeader('Content-Disposition', 'inline; filename="' + invoiceName + '"');
-      //   res.send(data);
-      // });
-      // const file = fs.createReadStream(invoicePath);
-      // res.setHeader('Content-Type', 'pdf');
-      // res.setHeader(
-      //   'Content-Disposition',
-      //   'inline; filename="' + invoiceName + '"'
-      // );
-      // file.pipe(res); 
     })
     .catch(err => {
       const error = new Error(err);

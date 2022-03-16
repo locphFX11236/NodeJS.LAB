@@ -189,16 +189,8 @@ exports.postDeleteProduct = (req, res, next) => {
         return next(new Error('Product not found.'));
       }
       fileHelper.deleteFile(product.imageUrl);
+      return Product.findByIdAndRemove(prodId)
     })
-    .catch(err => {
-      const error = new Error(err);
-      error.httpStatus = 500;
-      return next(error);
-    })
-  ;
-
-  Product
-    .findByIdAndRemove(prodId)
     .then(() => { 
       console.log('DESTROYED PRODUCT!');
       res.redirect('/admin/products');
