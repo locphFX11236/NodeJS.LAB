@@ -1,0 +1,23 @@
+{
+    "_id": { "$oid": "635264402e6aee05c219751b" },
+    "products": [
+        {
+            "product": {
+                "_id": { "$oid": "63525fbf78b5f972835043c3" },
+                "title": "A Boat 3",
+                "price": 25,
+                "description": "A Boat!!!",
+                "imageUrl": "images\\1666342847271-boat.png",
+                "userId": { "$oid": "63525d406738216f3e81eb6a" },
+                "__v": 0
+            },
+            "quantity": 1,
+            "_id": { "$oid": "635264402e6aee05c219751c" }
+        }
+    ],
+    "user": {
+        "email": "aa@aa.com",
+        "userId": { "$oid": "63525d406738216f3e81eb6a" }
+    },
+    "__v": 0
+}

@@ -1,1 +1,38 @@
-[{"id":"123245","title":"A Book","imageUrl":"https://www.publicdomainpictures.net/pictures/10000/velka/1-1210009435EGmE.jpg","description":"This is an awesome book!","price":"19"}]
+[
+    {
+        "_id": { "$oid": "63525e54b42c04337dff8374" },
+        "title": "A boat",
+        "price": 20,
+        "description": "This is a boat!",
+        "imageUrl": "images\\1666342484223-boat.png",
+        "userId": { "$oid": "63525d406738216f3e81eb6a" },
+        "__v": 0
+    },
+    {
+        "_id": { "$oid": "63525eba78b5f97283504381" },
+        "title": "A boat 2",
+        "price": 30,
+        "description": "This is a new boat!!",
+        "imageUrl": "images\\1666342586811-boat.png",
+        "userId": { "$oid": "63525d406738216f3e81eb6a" },
+        "__v": 0
+    },
+    {
+        "_id": { "$oid": "63525fbf78b5f972835043c3" },
+        "title": "A Boat 3",
+        "price": 25,
+        "description": "A Boat!!!",
+        "imageUrl": "images\\1666342847271-boat.png",
+        "userId": { "$oid": "63525d406738216f3e81eb6a" },
+        "__v": 0
+    },
+    {
+        "_id": { "$oid": "6352600278b5f972835043d0" },
+        "title": "A Boat 4",
+        "price": 35,
+        "description": "A BOAT!!!!",
+        "imageUrl": "images\\1666342913212-boat.png",
+        "userId": { "$oid": "63525d406738216f3e81eb6a" },
+        "__v": 0
+    }
+]

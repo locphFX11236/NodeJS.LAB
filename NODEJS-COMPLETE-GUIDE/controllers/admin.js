@@ -144,7 +144,7 @@ exports.postEditProduct = (req, res, next) => {
         fileHelper.deleteFile(product.imageUrl);
         product.imageUrl = image.path;
       }
-      return product.save()
+      return product.save();
     })
     .then(result => {
       console.log('UPDATED PRODUCT!');

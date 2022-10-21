@@ -83,7 +83,7 @@ exports.postLogin = (req, res, next) => {
             req.session.isLoggedIn = true;
             req.session.user = user;
             return req.session.save(err => {
-              // console.log(err);
+              console.log('Compare password, err: ', err);
               return res.redirect('/');
             });
           }
@@ -99,7 +99,7 @@ exports.postLogin = (req, res, next) => {
           });
         })
         .catch(err => {
-          console.log(err);
+          console.log('Post login, err: ', err);
           res.redirect('/login');
         })  
       ;
